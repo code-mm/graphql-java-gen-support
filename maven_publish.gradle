@@ -1,0 +1,22 @@
+apply plugin: "maven-publish"
+afterEvaluate {
+    publishing {
+        repositories {
+            maven {
+                url System.getenv("MAVEN_PUBLISH_URL")
+                credentials {
+                    username System.getenv("MAVEN_PUBLISH_USERNAME")
+                    password System.getenv("MAVEN_PUBLISH_PASSWORD")
+                }
+            }
+        }
+        publications {
+            release(MavenPublication) {
+                from components.java
+                groupId = System.getenv("MAVEN_PUBLISH_GROUP")
+                artifactId = rootProject.name
+                version = System.getenv("MAVEN_PUBLISH_VERSION")
+            }
+        }
+    }
+}
